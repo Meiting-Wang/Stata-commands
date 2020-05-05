@@ -1,4 +1,4 @@
-cd D:\exercise
+cd X:\exercise
 sysuse nlsw88.dta, clear
 tab race, gen(race_num)
 drop race_num1
