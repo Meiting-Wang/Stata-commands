@@ -1,7 +1,7 @@
-* Feather: output summary statistics to Stata interface, Word and LaTeX
+* Description: output summary statistics to Stata interface, Word and LaTeX
 * Author: Meiting Wang, Master, School of Economics, South-Central University for Nationalities
-* Email: 2017110097@mail.scuec.edu.cn
-* Created on Oct 23th, 2019
+* Email: wangmeiting92@gmail.com
+* Created on May 4, 2020
 
 
 program define wmtsum
@@ -9,19 +9,6 @@ version 15.1
 
 syntax [varlist(numeric default=none)] [if] [in] [aw fw/] [using/] [, ///
 	replace append Statistics(string) TItle(string) Alignment(string) PAGE(string)]
-/*
-optional illustration:
-1. varlist: only numeric variable names permitted.
-2. statistics(): include N mean sd min median max p1 p5 p10 p25 p75 p90 p95 p99
-and you can set the format of every statistics, such as mean(%9.3f).
-3. title(): set the title for the reported table, summary statistics as the default.
-4. alignment(): only used in the LaTeX output, set the column format of the LaTeX
-table, but it will not impact the column format in the Stata output table, dot as 
-the default.
-5. page(): only used in the LaTeX output,set the extra package for the LaTeX code.
-please don't need to add the package of booktabs array dcolumn, because the code 
-will automatic process these with the option of alignment().
-*/
 
 
 *--------设置默认格式------------
@@ -153,9 +140,14 @@ local st = ustrtrim("`st'")
 local stl = ustrtrim("`stl'")
 
 *构建esttab中alignment()和page()内部的语句(LaTeX输出专属)
+if "`alignment'" == "" {
+	local alignment "math"
+} //默认下LaTeX输出的列格式
+
 if "`page'" != "" {
 	local page ",`page'"
 }
+
 if "`alignment'" == "math" {
 	local page "array`page'"
 	local alignment "*{`stat_num'}{>{$}c<{$}}"

@@ -1,45 +1,46 @@
-* Feather: achieve more matrix operations comparing to matrix command. see below for some examples.
+* Description: Achieve more matrix operations comparing to matrix command. See below for some examples.
 * Author: Meiting Wang, Master, School of Economics, South-Central University for Nationalities
-* Email: 2017110097@mail.scuec.edu.cn
-* Created on Nov 25th, 2019
+* Email: wangmeiting92@gmail.com
+* Created on May 9, 2020
 /*
 更新日志：
-2019年12月16日：解决了matmh A = A[1 2,:]之类的bug；添加了矩阵行列名的传递
+2020年5月9日：解决了matmh A = A[1 2,:]之类的bug；添加了矩阵行列名的传递 
+2020年5月10日：解决了matmh list A的bug；解决了matmh dir的bug；解决了matmh B[1,1]=3后列示不出矩阵的bug
+2020年5月11日：解决了matmh symeigen X v = test和matmh svd U W V = test后列示不出矩阵的bug
 */
 
 program define matmh
 version 15.1
 
-syntax anything(equalok id="matrix operation expression") [, Display Displayfmt(string)]
+syntax anything(equalok id="matrix operation expression") [, Display Displayfmt(string) NDisplay]
 /*
 注意：通篇程序没有进入过mata环境
-for instance:
-mat A = (4,6,8,10\10,12,14,16\16,18,20,22\24,26,28,30)
-mat B = (3,2,2,5\5,6,7,8\8,3,4,11\6,13,14,6)
+matmh A = (4,6,8,10\-1,0,1,16\1.2,1.3,1.4,1.5\3.6,-1.6,-1.4,-1.5)
+matmh B = (3,2,2,5\5,6,7,8\8,3,4,11\6,13,14,6)
 
-1. 从一个矩阵中提取子矩阵
+*1. 从一个矩阵中提取子矩阵
 matmh test = A                         //复制矩阵A
 matmh test = A[2,3]                    //提取矩阵A第2行第3列的元素
 matmh test = A[1:3,2]                  //提取矩阵A第1至3行，第2列的元素
-matmh test = A[1:,2]                   //提取矩阵A第1至最后一行，第二列的元素
-matmh test = A[:,2]                    //提取矩阵A所有行，第二列的元素
+matmh test = A[1:,2]                   //提取矩阵A第2列的元素
+matmh test = A[:,2]                    //提取矩阵A第2列的元素
 matmh test = A[1:3,2:4]                //提取矩阵A第1至3行，第2至4列的元素
 matmh test = A[1:3,2:]                 //提取矩阵A第1至3行，第2至最后一列的元素
 matmh test = A[1:3,:]                  //提取矩阵A第1至3行，所有列的元素
 matmh test = A[1:3,1 3 4]              //提取矩阵A第1至3行，第1、3、4列的元素
 matmh test = A[1 3 4,1 3 4]            //提取矩阵A第1、3、4行，第1、3、4列的元素
-matmh test = A[1 3 4,1 3 4], d         //求得矩阵test后并把其展示出来
+matmh test = A[1 3 4,1 3 4], nd        //求得矩阵test后不将其展示出来
 matmh test = A[1 3 4,1 3 4], d(%9.3f)  //求得矩阵test后并把其以%9.3f的格式展示出来
 
-2. 矩阵的点乘、点除、点幂运算
+*2. 矩阵的元素运算
 matmh test = A.+B     //点加
 matmh test = A.-B     //点减
 matmh test = A.*B     //点乘
 matmh test = A./B     //点除
-matmh test = A.^D     //点幂
+matmh test = A.^B     //点幂
 
-3. 矩阵的逻辑运算
-matmh test = A>B      //不等式逻辑值
+*3. 矩阵的逻辑运算
+matmh test = (A>B)      //不等式逻辑值
 matmh test = A>=B
 matmh test = A==B
 matmh test = A<=B
@@ -51,7 +52,7 @@ matmh test = A|B      //逻辑或
 matmh test = !A       //逻辑非
 matmh test = ~A
 
-4. 矩阵的数学函数运算
+*4. 矩阵的数学函数运算
 matmh test = reverse(A)    //将矩阵A中的所有元素转化为其倒数(自创函数)
 matmh test = ln(A)         //求自然对数  
 matmh test = log10(A)      //求以10为底的对数
@@ -62,22 +63,22 @@ matmh test = round(A)      //求与矩阵A最近的板
 matmh test = ceil(A)       //求与矩阵A的"天花板"
 help mathematical functions  //可以在这里找到常见的Stata内置的数学函数
 
-5. 矩阵的幂运算
+*5. 矩阵的幂运算
 matmh test = A^2           //2个方阵A相乘(输入的A必须为方阵)
 matmh test = A^10          //10个方阵A相乘
 matmh test = A^(10)
 matmh test = A^-1          //方阵A的逆
 matmh test = A^(-1)
 
-6. 等差或等比列向量的构建
-apd: arithmetic progression containing delta
-ape: arithmetic progression containing end_number
-gpd: geometric progression containing delta
-gpe: geometric progression containing end_number
-matmh test = apd(begin_num,quantity_of_numbers,delta) 
-matmh test = ape(begin_num,quantity_of_numbers,end_num)
-matmh test = gpd(begin_num,quantity_of_numbers,delta) 
-matmh test = gpe(begin_num,quantity_of_numbers,end_num)
+*6. 等差或等比列向量的构建
+*apd: arithmetic progression containing delta
+*ape: arithmetic progression containing end_number
+*gpd: geometric progression containing delta
+*gpe: geometric progression containing end_number
+*matmh test = apd(begin_num,quantity_of_numbers,delta) 
+*matmh test = ape(begin_num,quantity_of_numbers,end_num)
+*matmh test = gpd(begin_num,quantity_of_numbers,delta) 
+*matmh test = gpe(begin_num,quantity_of_numbers,end_num)
 
 matmh test = 1::10   //生成等差列向量：[1,2,3,4,5,6,7,8,9,10]'
 matmh test = 1:2:11  //生成等差列向量：[1,3,5,7,9,11]'
@@ -88,21 +89,51 @@ matmh test = ape(1,5,21)  //生成等差列向量：[1,6,11,16,21]'
 matmh test = gpd(1,6,2)   //生成等比列向量：[1,2,4,8,16,32]'
 matmh test = gpe(1,5,81)  //生成等比列向量：[1,3,9,37,81]'
 
-7. 除此之外，matmh能运行所有mat能运行的计算(即搭载了mat系统)
+*7. 可运行所有matrix命令可执行的矩阵运算，如下，但不限于：
+matmh test = A + B
+matmh test = A * B
+matmh test = A # B
+matmh test = A \ B
+matmh test = (A,B)
+matmh test = A / 3
+matmh test = hadamard(A,B)
+matmh test = J(2,3,9)
+matmh test = matuniform(4,5)
+matmh test = trace(A)
+matmh test = rowsof(A)
+matmh A[1,1] = 100
+matmh rown A = row1 row2 row3 row4
+matmh dir
+matmh drop test
+matmh rename A new_A
+matmh list new_A
+matmh test = (6,2,4\2,3,2\4,2,6)
+matmh symeigen X v = test
+matmh svd U W V = test
 */
 
 
 *----------------------程序报错--------------------------
 if ("`display'"!="")&("`displayfmt'"!="") {
-	dis "{error:display syntax error}"
+	dis "{error:syntax error}"
+	exit
+}
+
+if (("`display'"!="")|("`displayfmt'"!=""))&("`ndisplay'"!="") {
+	dis "{error:display and ndisplay cannot exist at the same time}"
 	exit
 }
 
 if "`displayfmt'" != "" {
 	if ~ustrregexm("`displayfmt'","^\%(-|)\d+\.\d+(f|g|e|fc|gc)$") {
-		dis "{error:display syntax error}"
+		dis "{error:wrong numeric format}"
 		exit
 	}
+}
+
+if (ustrregexm("`anything'","^list\s+\w+$"))&("`ndisplay'"!="") {
+	dis "{error:list and ndisplay cannot exist at the same time}"
+	exit
 }
 
 *----------------设定单纯的mat语句不能实现的矩阵运算类型------------------------
@@ -152,13 +183,24 @@ local status3 "^`portion'(apd|ape|gpd|gpe)\(\s*`real'\s*,\s*`positive_int'\s*,\s
 
 
 *------------------------------主程序-----------------------------------
-if ustrregexm("`anything'","^(\w+)\s*=.*") {
+if ustrregexm("`anything'","^(\w+)\s*=.+") {  //匹配类似于A = (1,2,3\4,5,6)
 	local mat_name = ustrregexs(1) //获得可能要生成的矩阵名
 }
-else if ustrregexm("`anything'","^\w+\s+(\w+)\s*=.*") {
+else if ustrregexm("`anything'","^(\w+)\[\s*\d+\s*,\s*\d+\s*\]\s*=.+") { //匹配类似于A[1,2]=6
 	local mat_name = ustrregexs(1) //获得可能要修改的矩阵名
 }
-
+else if ustrregexm("`anything'","^\w+\s+(\w+)\s*=.+") { //匹配类似于rown A = row1 row2
+	local mat_name = ustrregexs(1) //获得可能要修改的矩阵名
+}
+else if ustrregexm("`anything'","^\w+\s+(\w+)\s+(\w+)\s*=.+") { //匹配类似于symeigen X v = A
+	local mat_name1 = ustrregexs(1)
+	local mat_name2 = ustrregexs(2)
+}
+else if ustrregexm("`anything'","^\w+\s+(\w+)\s+(\w+)\s+(\w+)\s*=.+") { //匹配类似于symeigen X v = A
+	local mat_name1 = ustrregexs(1)
+	local mat_name2 = ustrregexs(2)
+	local mat_name3 = ustrregexs(3)
+}
 
 if ustrregexm("`anything'", "(`situ1')|(`situ2')|(`situ3')|(`situ4')") {    //situ1-situ4情况处理
 	local rmat_name = ustrregexra("`anything'","(^\w+\s*=\s*)|(\[.*\]$)","") //获得旧矩阵名
@@ -446,7 +488,7 @@ else if ustrregexm("`anything'", "(`status1')|(`status2')|(`status3')") {
 				}
 				if `delta_or_end_num'/`begin_num'<0 {
 					if ~mod(`quantity_of_numbers'-1,2) {
-						dis "{error:the number of end_num/begin_num cannot be a radical}"
+						dis "{error:end_num/begin_num cannot be negative in this case}"
 						exit
 					}
 					else {
@@ -468,11 +510,37 @@ else {   //这里将搭载mat运算系统
 	mat `anything'
 }
 
-if "`display'" != "" {
-	mat list `mat_name'
-}
-else if "`displayfmt'" != "" {
-	mat list `mat_name', format(`displayfmt')
+if "`ndisplay'" == "" {
+	if "`mat_name3'" != "" {
+		if "`displayfmt'" != "" {
+			mat list `mat_name1', format(`displayfmt')
+			mat list `mat_name2', format(`displayfmt')
+			mat list `mat_name3', format(`displayfmt')
+		}
+		else {
+			mat list `mat_name1'
+			mat list `mat_name2'
+			mat list `mat_name3'
+		}
+	}
+	else if "`mat_name2'" != "" {
+		if "`displayfmt'" != "" {
+			mat list `mat_name1', format(`displayfmt')
+			mat list `mat_name2', format(`displayfmt')
+		}
+		else {
+			mat list `mat_name1'
+			mat list `mat_name2'
+		}
+	}
+	else if "`mat_name'" != "" {
+		if "`displayfmt'" != "" {
+			mat list `mat_name', format(`displayfmt')
+		}
+		else {
+			mat list `mat_name'
+		}
+	}
 }
 
 end

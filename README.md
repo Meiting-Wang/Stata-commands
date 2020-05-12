@@ -1,14 +1,15 @@
-_v. 1.0.0_  
+# 该仓库用于收集本人编写的所有 Stata 命令及其帮助文件
 
-`wmt` : wmt
-===========
+## 结果输出命令
+- `wmtsum`
+- `wmttest`
+- `wmtcorr`
+- `wmtreg`
+- `wmtmat`
 
+## 矩阵运算命令
+- `matmh`
 
-### License
-MIT
-
-Author
-------
-
-**Meiting-Wang**  
-379446137@qq.com  
+## 其他命令
+- `bvols`
+- `bvstru`
