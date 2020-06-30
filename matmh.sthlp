@@ -9,17 +9,16 @@
 {title:Syntax}
 
 {p 8 8 2}
-{bf:matmh} {it:a_matrix_operation_expression} [, {it:options}]
+{bf:matmh} {it:expression} [, {it:{help wmtmat##Options:options}}]
 
 {p 4 4 2}
 where the subcommands can be :
 
-{p2colset 5 38 42 2}{...}
-{p2col :{it:subcommand}}Description{p_end}
-{p2line}
-{p2col :{opt a_matrix_operation_expression}}A matrix operation expression required, like A = (1,2\3,4){p_end}
-{p2line}
-{p2colreset}{...}
+{synoptset 20}{...}
+{synopthdr:subcommand}
+{synoptline}
+{synopt :{it:expression}}A matrix operation expression required, like A = (1,2\3,4){p_end}
+{synoptline}
 
 
 {* -----------------------------Contents------------------------------------ *}{...}
@@ -43,13 +42,12 @@ where the subcommands can be :
 {* -----------------------------Options------------------------------------ *}{...}
 {marker Options}{title:Options}
 
-{p2colset 5 28 32 2}{...}
-{p2col :{it:option}}Description{p_end}
-{p2line}
-{p2col :{opth d:isplay(format:fmt)}}Format the matrix{p_end}
-{p2col :{opt nd:isplay}}Do not display the matrix. {bf:matmh} will display the matrix by default{p_end}
-{p2line}
-{p2colreset}{...}
+{synoptset 20}{...}
+{synopthdr}
+{synoptline}
+{synopt :{opth d:isplay(format:fmt)}}Format the matrix{p_end}
+{synopt :{opt nd:isplay}}Do not display the matrix. {bf:matmh} will display the matrix by default{p_end}
+{synoptline}
 
 
 {* -----------------------------Examples------------------------------------ *}{...}
@@ -151,8 +149,8 @@ where the subcommands can be :
 
 {p 4 4 2}
 Meiting Wang{break}
-School of Economics, South-Central University for Nationalities{break}
-Wuhan, China{break}
+Institute for Economic and Social Research, Jinan University{break}
+Guangzhou, China{break}
 wangmeiting92@gmail.com
 
 

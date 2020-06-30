@@ -46,6 +46,7 @@ if (~ustrregexm("`using'",".tex"))&("`alignment'`page'"!="") {
 *---------前期语句处理----------
 *普通选项语句的处理
 if "`varlist'" == "" {
+	cap drop _est_* //删除变量_est_*
 	qui ds, has(type numeric)
 	local varlist "`r(varlist)'"
 } //如果没有设定变量，则自动导入所有的数值变量。
@@ -176,6 +177,7 @@ else {
 
 
 *-------------------------------主程序------------------------------------
+eststo clear
 qui estpost summarize `varlist' `if' `in' `weight', detail
 esttab, cells("`st'") compress ///
 	noobs nomti nonum title(`title') //Stata 界面显示 
