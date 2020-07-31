@@ -74,8 +74,7 @@ if ustrregexm(`"`row_info'"',"^[1-9]\d*$") {
 	local row_num = `row_info'
 }
 else {
-	qui mat_rcfn `mat_name'
-	local mat_name_rown `"`r(rown)'"'
+	local mat_name_rown: rowfullnames `mat_name'
 	local count = 1
 	foreach i of local mat_name_rown {
 		if `""`i'""' == `"`row_info'"' {
@@ -90,8 +89,7 @@ if ustrregexm(`"`col_info'"',"^[1-9]\d*$") {
 	local col_num = `col_info'
 }
 else {
-	qui mat_rcfn `mat_name'
-	local mat_name_coln `"`r(coln)'"'
+	local mat_name_coln: colfullnames `mat_name'
 	local count = 1
 	foreach i of local mat_name_coln {
 		if `""`i'""' == `"`col_info'"' {
